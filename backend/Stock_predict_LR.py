@@ -54,13 +54,7 @@ def stock_predict(ticker):
     stock_merge_data['Volatility'] = stock_merge_data['Close'].rolling(window=30).std() # 이동 표준 편차를 계산하라
     stock_merge_data['Rolling_Mean_Close'] = stock_merge_data['Close'].rolling(window=30).mean()
     stock_merge_data.dropna(inplace=True)
-
-    stock_merge_data_head = stock_merge_data.iloc[:-10] # 앞쪽 
-    stock_merge_data_tail = stock_merge_data.iloc[-10:] # 뒷쪽 10개
     
-    X = stock_merge_data_head.drop(['Close', 'High', 'Low', 'Volume'], axis=1)  # Ensure 'Close' is dropped to create the feature set
-    y = stock_merge_data_head['Close']  # Target variable is 'Close' price
-
     # Step 1: Replace infinite values with NaN
     X.replace([np.inf, -np.inf], np.nan, inplace=True)
 
@@ -68,31 +62,32 @@ def stock_predict(ticker):
     # Using forward fill to handle NaN values (you can adjust this as needed)
     X.fillna(method='ffill', inplace=True)
 
+    X = stock_merge_data.drop(['Close', 'High', 'Low', 'Volume'], axis=1)  # Ensure 'Close' is dropped to create the feature set
+    y = stock_merge_data['Close']  # Target variable is 'Close' price
+    
+    
+    scaler = StandardScaler()
+    scaler.fit_transform(X)
+
+
     # Step 3: Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # Step 4: Standardize the data
-    scaler = StandardScaler()
-    scaler.fit(X_train)
-    X_train_scaled = scaler.transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    #scaler = StandardScaler()
+    #scaler.fit(X_train)
+    #X_train_scaled = scaler.transform(X_train)
+    #X_test_scaled = scaler.transform(X_test)
 
-    # 마지막 테스트할꺼: Define target variable and features
-    Final_X = stock_merge_data_tail.drop(['Close', 'High', 'Low', 'Volume'], axis=1)  # Ensure 'Close' is dropped to create the feature set
-    Final_y = stock_merge_data_tail['Close']  # Target variable is 'Close' price
-    Final_X.replace([np.inf, -np.inf], np.nan, inplace=True)
-    Final_X.fillna(method='ffill', inplace=True)
 
-    X_Final_scaled = scaler.transform(Final_X)
-
+    # LR
     lr = LinearRegression()
-    lr.fit(X_train_scaled, y_train)
+    lr.fit(X_train, y_train)
 
     # Make predictions
-    y_pred_lr = lr.predict(X_test_scaled)
-    y_pred_Final = lr.predict(X_Final_scaled)
+    y_pred_lr = lr.predict(X_test)
 
-    Final_data = stock_merge_data_tail[['Open','Close']]
+    Final_data = stock_merge_data[['Open','Close']]
     Final_data['Pred_Close'] = y_pred_Final
     Final_data['Close_diff'] = Final_data['Pred_Close'] - Final_data['Close']
     Final_data['diff_per'] = (Final_data['Close_diff'] / Final_data['Close']) * 100.0
