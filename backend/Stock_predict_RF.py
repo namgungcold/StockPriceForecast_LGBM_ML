@@ -68,14 +68,13 @@ def stock_predict(ticker):
     # Using forward fill to handle NaN values (you can adjust this as needed)
     X.fillna(method='ffill', inplace=True)
 
-    # Step 3: Split the data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # Step 4: Standardize the data
+    # Step 3: Standardize the data
     scaler = StandardScaler()
-    scaler.fit(X_train)
-    X_train_scaled = scaler.transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    scaler.fit(X)
+    X_scaled = scaler.transform(X)
+
+    # Step 4: Split the data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
     # 마지막 테스트할꺼: Define target variable and features
     Final_X = stock_merge_data_tail.drop(['Close', 'High', 'Low', 'Volume'], axis=1)  # Ensure 'Close' is dropped to create the feature set
@@ -87,10 +86,10 @@ def stock_predict(ticker):
 
    # Initialize and train a random forest model
     rf = RandomForestRegressor(n_estimators=100, random_state=42)
-    rf.fit(X_train_scaled, y_train)
+    rf.fit(X_train, y_train)
 
 # Make predictions
-    y_pred_rf = rf.predict(X_test_scaled)
+    y_pred_rf = rf.predict(X_test)
     y_pred_Final = rf.predict(X_Final_scaled)
     
     Final_data = stock_merge_data_tail[['Open','Close']]
