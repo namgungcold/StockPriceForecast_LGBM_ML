@@ -62,15 +62,18 @@ def stock_predict(ticker):
     # Using forward fill to handle NaN values (you can adjust this as needed)
     X.fillna(method='ffill', inplace=True)
 
+
+    # 여기까지 하고 Azure Designer로 이동해서 처리
+    # //////////////////////////////////////////
     X = stock_merge_data.drop(['Close', 'High', 'Low', 'Volume'], axis=1)  # Ensure 'Close' is dropped to create the feature set
     y = stock_merge_data['Close']  # Target variable is 'Close' price
     
-    
+    # Step 3: Standardize the data
     scaler = StandardScaler()
     scaler.fit_transform(X)
 
 
-    # Step 3: Split the data into training and testing sets
+    # Step 4: Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # Step 4: Standardize the data
@@ -86,16 +89,5 @@ def stock_predict(ticker):
 
     # Make predictions
     y_pred_lr = lr.predict(X_test)
-
-    Final_data = stock_merge_data[['Open','Close']]
-    Final_data['Pred_Close'] = y_pred_Final
-    Final_data['Close_diff'] = Final_data['Pred_Close'] - Final_data['Close']
-    Final_data['diff_per'] = (Final_data['Close_diff'] / Final_data['Close']) * 100.0
-
-    Final_predict = Final_data['Close_diff'][-1]
-    if Final_predict>0:
-        return 'UP',Final_predict
-    else:
-        return 'DOWN',Final_predict
 
    
