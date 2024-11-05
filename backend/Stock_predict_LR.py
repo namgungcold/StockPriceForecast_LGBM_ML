@@ -21,7 +21,7 @@ sns.set(style="whitegrid")
 def stock_predict(ticker):
     
     #나스닥 파일 불러오기
-    data_path = 'nasdq.csv'
+    data_path = 'data/nasdq_20241104.csv'
     data = pd.read_csv(data_path)
 
     
@@ -36,10 +36,10 @@ def stock_predict(ticker):
     stock_data.drop(columns=['Adj Close'], inplace=True)
     
     #Nasdaq 데이터 전처리
-    global_data = data.drop(columns=['Open', 'High', 'Low', 'Close', 'Volume'])
+    #global_data = data.drop(columns=['Open', 'High', 'Low', 'Close', 'Volume'])
 
     #AAPL, Nasdaq merge
-    stock_merge_data = pd.merge(stock_data, global_data, on='Date', how='inner')
+    stock_merge_data = pd.merge(stock_data, data, on='Date', how='inner')
 
     #merge data 전처리
     stock_merge_data['Date'] = pd.to_datetime(stock_merge_data['Date'])
