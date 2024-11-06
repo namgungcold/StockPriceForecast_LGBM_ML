@@ -56,38 +56,39 @@ def stock_predict(ticker):
     stock_merge_data.dropna(inplace=True)
     
     # Step 1: Replace infinite values with NaN
-    X.replace([np.inf, -np.inf], np.nan, inplace=True)
+    stock_merge_data.replace([np.inf, -np.inf], np.nan, inplace=True)
 
     # Step 2: Check for NaN values and handle them
     # Using forward fill to handle NaN values (you can adjust this as needed)
-    X.fillna(method='ffill', inplace=True)
+    stock_merge_data.fillna(method='ffill', inplace=True)
 
+    return stock_merge_data
 
-    # 여기까지 하고 Azure Designer로 이동해서 처리
-    # //////////////////////////////////////////
-    X = stock_merge_data.drop(['Close', 'High', 'Low', 'Volume'], axis=1)  # Ensure 'Close' is dropped to create the feature set
-    y = stock_merge_data['Close']  # Target variable is 'Close' price
+    # # 여기까지 하고 Azure Designer로 이동해서 처리
+    # # //////////////////////////////////////////
+    # X = stock_merge_data.drop(['Close', 'High', 'Low', 'Volume'], axis=1)  # Ensure 'Close' is dropped to create the feature set
+    # y = stock_merge_data['Close']  # Target variable is 'Close' price
     
-    # Step 3: Standardize the data
-    scaler = StandardScaler()
-    scaler.fit_transform(X)
+    # # Step 3: Standardize the data
+    # scaler = StandardScaler()
+    # scaler.fit_transform(X)
 
 
-    # Step 4: Split the data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # # Step 4: Split the data into training and testing sets
+    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Step 4: Standardize the data
-    #scaler = StandardScaler()
-    #scaler.fit(X_train)
-    #X_train_scaled = scaler.transform(X_train)
-    #X_test_scaled = scaler.transform(X_test)
+    # # Step 4: Standardize the data
+    # #scaler = StandardScaler()
+    # #scaler.fit(X_train)
+    # #X_train_scaled = scaler.transform(X_train)
+    # #X_test_scaled = scaler.transform(X_test)
 
 
-    # LR
-    lr = LinearRegression()
-    lr.fit(X_train, y_train)
+    # # LR
+    # lr = LinearRegression()
+    # lr.fit(X_train, y_train)
 
-    # Make predictions
-    y_pred_lr = lr.predict(X_test)
+    # # Make predictions
+    # y_pred_lr = lr.predict(X_test)
 
    
