@@ -29,7 +29,7 @@ def info_fn():
     2010-01-01 ~ 2024-11-06<br><br>
 
     < 분석 모델 ><br> 
-    RandomForestRegression<br><br>
+    LGBMRegressor<br><br>
     """
     gr.Info(information,duration=None,title="")
 
