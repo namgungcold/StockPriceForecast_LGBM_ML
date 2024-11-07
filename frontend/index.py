@@ -48,7 +48,7 @@ available_tickers = pd.read_csv('../data/available_tickers.csv')['tickers'].str.
 random.shuffle(available_tickers)
 
 # 이미지 파일을 base64로 인코딩
-with open("images/bg_01.png", "rb") as image_file:
+with open("images/bg_04.png", "rb") as image_file:
     encoded_string = base64.b64encode(image_file.read()).decode()
 
 with open("images/up.png", "rb") as image_file:
@@ -69,6 +69,7 @@ css_code = f"""
 
 .custom-markdown h1, p {{
     color: white;
+    text-shadow: -2px 0px black, 0px 2px black, 2px 0px black, 0px -2px black;
     text-align: center;
 }}
 
@@ -140,9 +141,9 @@ div.small-font span {{
 }}
 
 span.price_down {{
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: blue;
-    font-weight: 700;
+    font-weight: 900;
 }}
 
 span.price_up {{
@@ -289,7 +290,7 @@ with gr.Blocks(gr.themes.Monochrome(), css=css_code) as demo:
     previous_tickers = gr.State(set())
     gr.Markdown("# 주식 가격 예측", elem_classes="custom-markdown")
     previous_tickers_display = gr.Radio(label="이전 조회된 티커", choices=[], interactive=True, visible=False)
-    ticker_input = gr.Textbox(label="주식 티커 입력", placeholder=f"예: {", ".join(available_tickers[:5])} 등")
+    ticker_input = gr.Textbox(label="주식 티커(종목 코드) 입력", placeholder=f"예: {", ".join(available_tickers[:5])} 등")
     warning_message = gr.Markdown(value="", visible=False)
     with gr.Row():
         submit_btn = gr.Button("조회")
@@ -381,11 +382,11 @@ with gr.Blocks(gr.themes.Monochrome(), css=css_code) as demo:
                 </div>
                 <div class='predict_result'>
                     <div class='predict_ticker'>
-                        [ {ticker} ] 시가 : {open}
+                        [ {ticker} ]<br>시가 : {open}
                     </div>  
                     <div class='predict_price'>
                         예측 종가: {prediction}<br><span class='price_up'>{close}(▲)</span><br>
-                        10거래일 수익률 <span class='max_diff'>{max_diff}%</span>~<span class='min_diff'>{min_diff}%</span>
+                        지난 10거래일 수익률 <span class='max_diff'>{max_diff}%</span>~<span class='min_diff'>{min_diff}%</span>
                     </div>
                 </div>
             </div>
@@ -397,11 +398,11 @@ with gr.Blocks(gr.themes.Monochrome(), css=css_code) as demo:
                 </div>
                 <div class='predict_result'>
                     <div class='predict_ticker'>
-                        [ {ticker} ] 시가 : {open}
+                        [ {ticker} ]<br>시가 : {open}
                     </div>  
                     <div class='predict_price'>
                         예측 종가: {prediction}<br><span class='price_down'>{close}(▼)</span><br>
-                        10거래일 수익률 <span class='max_diff'>{max_diff}%</span>~<span class='min_diff'>{min_diff}%</span>
+                        지난 10거래일 수익률 <span class='max_diff'>{max_diff}%</span>~<span class='min_diff'>{min_diff}%</span>
                     </div>
                 </div>
             </div>
@@ -449,5 +450,5 @@ with gr.Blocks(gr.themes.Monochrome(), css=css_code) as demo:
     )
 
 # Gradio 앱 실행
-# demo.launch()
-demo.launch(share=True)
+demo.launch()
+# demo.launch(share=True)
