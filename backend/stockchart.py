@@ -24,32 +24,35 @@ def dailyChart():
     ticker_change = []
     volume = []
     changePer = []
+    rank_volume=[]
+    rank_change=[]
 
     # 테이블 행을 순회하며 정보 추출
-    for row in soup_volume.select('table tr'):
+    for i,row in enumerate(soup_volume.select('table tr')):
         cols = row.find_all('td')
         if len(cols) > 4:  # 데이터가 있는 행인지 확인
+            rank_volume.append(i) 
             ticker_volume.append(cols[0].text.strip())       # 회사명
             volume.append(cols[1].text.strip())       # 거래량
     
-    for row in soup_change.select('table tr'):
+    for i,row in enumerate(soup_change.select('table tr')):
         cols = row.find_all('td')
         if len(cols) > 4:  # 데이터가 있는 행인지 확인
+            rank_change.append(i)
             ticker_change.append(cols[0].text.strip())       # 회사명
             changePer.append(cols[1].text.strip())    # 변화율
 
     # 데이터프레임 생성
     data_volume = pd.DataFrame({
+        'Rank': rank_volume,
         'Company': ticker_volume,
         'Volume': volume
     })
 
     data_change = pd.DataFrame({
+        'Rank': rank_change,
         'Company': ticker_change,
         'changePercents': changePer
     })
-
-
-
     return data_volume,data_change
 
