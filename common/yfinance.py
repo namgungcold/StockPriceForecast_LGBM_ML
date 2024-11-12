@@ -62,7 +62,8 @@ def get_yfinance_stock_data(ticker, start=None, end=None):
 
 def get_prediction(ticker):
     # 요청 URL
-    url = "http://121.162.37.155:5000/predict"
+    # url = "http://121.162.37.155:5000/predict"
+    url = "http://127.0.0.1:5001/predict"
 
     # 요청 헤더 설정
     headers = {

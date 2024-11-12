@@ -174,34 +174,35 @@ span.price_up {{
 import requests
 
 # 요청 URL
-url = "http://121.162.37.155:5000/predict"
+# url = "http://121.162.37.155:5000/predict"
+url = "http://127.0.0.1:5001/predict"
 
 # 요청 헤더 설정
-headers = {
-    "Content-Type": "application/json"
-}
+# headers = {
+#     "Content-Type": "application/json"
+# }
 
-# 요청 본문 설정 (필요한 데이터로 수정)
-payload = {
-    # API에서 요구하는 데이터를 여기에 추가하세요.
-    "ticker": "AAPL"
-}
+# # 요청 본문 설정 (필요한 데이터로 수정)
+# payload = {
+#     # API에서 요구하는 데이터를 여기에 추가하세요.
+#     "ticker": "AAPL"
+# }
 
-try:
-    # POST 요청 보내기
-    response = requests.get(url, json=payload, headers=headers)
+# try:
+#     # POST 요청 보내기
+#     response = requests.get(url, json=payload, headers=headers)
     
-    # 요청이 성공했는지 확인
-    response.raise_for_status()
+#     # 요청이 성공했는지 확인
+#     response.raise_for_status()
     
-    # JSON 응답 받기
-    json_response = response.json()
-    print("응답 받은 JSON:", json_response)
+#     # JSON 응답 받기
+#     json_response = response.json()
+#     print("응답 받은 JSON:", json_response)
     
-except requests.exceptions.HTTPError as http_err:
-    print(f"HTTP 에러 발생: {http_err}")
-except Exception as err:
-    print(f"기타 에러 발생: {err}")
+# except requests.exceptions.HTTPError as http_err:
+#     print(f"HTTP 에러 발생: {http_err}")
+# except Exception as err:
+#     print(f"기타 에러 발생: {err}")
 
 import plotly.graph_objects as go
 
@@ -290,7 +291,7 @@ with gr.Blocks(gr.themes.Monochrome(), css=css_code) as demo:
     previous_tickers = gr.State(set())
     gr.Markdown("# 주식 가격 예측", elem_classes="custom-markdown")
     previous_tickers_display = gr.Radio(label="이전 조회된 티커", choices=[], interactive=True, visible=False)
-    ticker_input = gr.Textbox(label="주식 티커(종목 코드) 입력", placeholder=f"예: {", ".join(available_tickers[:5])} 등")
+    ticker_input = gr.Textbox(label="주식 티커(종목 코드) 입력", placeholder=f"예: {', '.join(available_tickers[:5])} 등")
     warning_message = gr.Markdown(value="", visible=False)
     with gr.Row():
         submit_btn = gr.Button("조회")
