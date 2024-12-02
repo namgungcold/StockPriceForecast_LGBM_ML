@@ -31,7 +31,7 @@
 - **분석 지표 추가**:
   - 본 프로젝트에서 사용할 수 있는 머신러닝 Regressor Model은 시계열 특성이 없어 지표를 추가하기로 함.    
   - Daily_Return, Rolling_Mean_Close, 상관계수 등 특성 추가.
-  - 이동평균과 이동표준편차를 사용해 시계열적 특성을 반영.
+  - 이동평균과 이동표준편차를 사용해 시계열적 특성을 반영.<br>
 ![web_2](https://github.com/user-attachments/assets/54bb30e3-e870-42e3-896b-4b8174a0705c)
 
 ### 3. API 제공
