@@ -1,7 +1,7 @@
 # Stock Price Forecasting with LGBM Model
 
 본 프로젝트는 Regressor Model과 Finance Data를 활용하여 주식 시장 추세를 분석하고 예측하는 시스템을 제공합니다. `Flask`를 사용한 RESTful API, `Gradio` 기반의 사용자 인터페이스, 그리고 `LGBM` 모델을 활용하여 당일 종가 예측 및 데이터 시각화를 수행합니다.   
-(본 프로젝트는 MS AI SCHOOL 5기 1차 프로젝트를 진행하며 개발되었습니다.)
+(본 프로젝트는 MS AI SCHOOL 5기 1차 프로젝트를 진행하며 개발되었습니다. 프로젝트 기간: 10/31 ~ 11/8)
 ![발표사진](https://github.com/user-attachments/assets/bff4527d-d89b-44e0-92a6-02ee91fa1666)
 
 ---
